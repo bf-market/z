@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Boutique TV</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="container mx-auto px-4">
+        <!-- Navigation -->
+        <nav class="bg-blue-600 p-4 text-white">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Boutique TV</h1>
+                <div class="flex space-x-4">
+                    <a href="#shop" class="hover:underline">Boutique</a>
+                    <a href="#tv" class="hover:underline">TV en Direct</a>
+                    <a href="#quotes" class="hover:underline">Citations</a>
+                </div>
+            </div>
+            
+            <!-- Barre de recherche avec animation -->
+            <div class="mt-4 relative" x-data="{ searchQuery: '', showResults: false }">
+                <input x-model="searchQuery" @focus="showResults = true" @blur="setTimeout(() => showResults = false, 200)" 
+                       class="w-full p-2 rounded text-gray-800" type="text" placeholder="Rechercher des chaînes...">
+                <div x-show="showResults && searchQuery" class="absolute z-10 w-full mt-1 bg-white rounded shadow-lg max-h-60 overflow-auto">
+                    <template x-for="item in filteredItems">
+                        <div class="p-2 hover:bg-gray-100 cursor-pointer border-b" x-text="item.name"></div>
+                    </template>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Contenu principal -->
+        <div class="grid md:grid-cols-4 gap-4 mt-6">
+            <!-- Boutique -->
+            <section id="shop" class="md:col-span-3 bg-white p-4 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Nos Produits</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="products-container">
+                    <!-- Les produits seront chargés ici -->
+                </div>
+            </section>
+
+            <!-- Panier -->
+            <aside class="bg-white p-4 rounded shadow">
+                <h2 class="text-xl font-semibold mb-4">Votre Panier</h2>
+                <div id="cart-items"></div>
+                <div class="mt-4 font-bold" id="cart-total">Total: €0.00</div>
+                <button id="checkout-button" class="mt-2 bg-blue-600 text-white p-2 rounded w-full hover:bg-blue-700">
+                    Payer avec Stripe
+                </button>
+            </aside>
+        </div>
+
+        <!-- Section TV -->
+        <section id="tv" class="mt-8 bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold mb-4">TV en Direct</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="tv-container">
+                <!-- Les chaînes TV seront chargées ici -->
+            </div>
+        </section>
+
+        <!-- Section Citations -->
+        <section id="quotes" class="mt-8 bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-semibold mb-4">Citation du Jour</h2>
+            <div class="bg-gray-50 p-4 rounded" id="daily-quote">
+                <p class="italic">Chargement de la citation...</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-storage-compat.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="app.js"></script>
+</body>
+</html>
